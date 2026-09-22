@@ -2,20 +2,25 @@
 
 Private plugin marketplace for the MLT Digital team.
 
-## Install (once, in Claude Code)
+## Install (once)
 
+From a terminal:
+
+```bash
+claude plugin marketplace add mltdigital/claude-plugins
+claude plugin install eeat-html-builder@mlt-digital
 ```
-/plugin marketplace add mltdigital/claude-plugins
-/plugin install eeat-html-builder@mlt-digital
-```
+
+Or inside a Claude Code session, type the same commands as slash commands (`/plugin marketplace add ...`,
+`/plugin install ...`) in the chat box. They are not shell commands.
 
 You need read access to this repo (SSH key or `gh auth login`).
 
 ## Get updates
 
-```
-/plugin marketplace update mlt-digital
-/plugin update eeat-html-builder@mlt-digital
+```bash
+claude plugin marketplace update mlt-digital
+claude plugin update eeat-html-builder@mlt-digital
 ```
 
 Then `/reload-plugins` or start a new session.
