@@ -1,0 +1,20 @@
+{
+  "name": "mlt-digital",
+  "owner": {
+    "name": "MLT Digital",
+    "email": "simonrankine4@gmail.com"
+  },
+  "metadata": {
+    "description": "MLT Digital's in-house Claude Code plugins."
+  },
+  "plugins": [
+    {
+      "name": "eeat-html-builder",
+      "source": "./plugins/eeat-html-builder",
+      "description": "Builds styled, self-contained YMYL/EEAT HTML content blocks that drop into law firm websites.",
+      "version": "0.2.0",
+      "author": { "name": "Simon Rankine" },
+      "keywords": ["html", "ymyl", "eeat", "seo", "law-firm", "elementor", "wordpress"]
+    }
+  ]
+}

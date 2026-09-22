@@ -1,0 +1,635 @@
+<!--
+  MLT Digital - YMYL / Law firm SEO drop-in content block
+  ============================================================
+  Build notes (handover) for Simon:
+  - Drop-in fragment only: scoped <style>, JSON-LD <script>, content <div>. No <html>/<head>/<body> wrapper (per Elementor drop-in standard).
+  - Scoped to #mlt-ymyl using ID selectors so it survives WordPress + Elementor (Hello/Libre Franklin) theme injection. No <ul>/<li> used (avoids Elementor li::before injection); decorative lists are CSS grids of <div>/<a>.
+  - Styles Chrome-verified on mltdigital.co.uk 17 Jun 2026: headings Libre Franklin 700, body Inter #333, brand accent pink #CC3366 (links), CTA lime green #A3C126, soft-blue hero band.
+  - ALL client copy reproduced verbatim, word for word (including the LinkedIn post, comments and quotes). Nothing rewritten.
+  - EEAT internal link added on existing words only (as agreed): first "Stephen Moore" mention links to /our-team/stephen-moore/. All other links are exactly as supplied in your copy.
+  - Scoring table is a styled PLACEHOLDER (as agreed): seven metric rows with Before/After cells marked "TBC". Drop your real before/after scores into the cells. No invented numbers.
+  - CTA buttons use the brand lime green with dark ink text for WCAG AA (white-on-lime on the live site is only ~2:1). Keep the dark ink text; do not swap to white, which drops back below AA.
+  - One style note: Alex Heshmaty's quote in the "MLT's perspective" section contains an em dash in your source copy ("now - even Google itself!"). It is preserved verbatim because it is a named person's quote. Tell me if you would prefer it changed.
+  - JSON-LD: BlogPosting schema matches the visible content. Set datePublished/dateModified to the real publish date, add your publisher logo URL, and set mainEntityOfPage to the final article URL before going live.
+-->
+<style>
+  #mlt-ymyl {
+    --ink: #1f2430;
+    --body: #333333;
+    --muted: #5b6470;
+    --pink: #cc3366;
+    --pink-d: #a8214f;
+    --green: #a3c126;
+    --green-d: #8ba61f;
+    --ink-green: #18230a;
+    --blue-soft: #eaf4fb;
+    --blue-line: #cfe6f5;
+    --line: #e6e8ec;
+    --card: #ffffff;
+    --tint: #f7f8fa;
+    --warn: #8a4b00;
+    --warn-bg: #fdf3e3;
+    --warn-line: #f1dcb6;
+    --good: #3a6a12;
+    --good-bg: #f1f7e6;
+    --good-line: #dcebc4;
+    --good-d: #2c520e;
+    --warn-d: #b46a08;
+    --warn-line-d: #e0a338;
+    --dark: #1e1e2d;
+    --pink-focus: rgba(204,51,102,.45);
+    --pink-a05: rgba(204,51,102,.05);
+    --pink-a0: rgba(204,51,102,0);
+    --pink-a09: rgba(204,51,102,.09);
+    --pink-a10: rgba(204,51,102,.1);
+    --pink-light: #ff7ea6;
+    --green-focus: rgba(163,193,38,.6);
+    --lede-ink: #2c333d;
+    --av-ah: #2f6fb0;
+    --av-jm: #475569;
+    --av-kc: #6d5ac0;
+    --dark-p: #d7d9e2;
+    --dark-pill-bg: rgba(255,255,255,.06);
+    --dark-pill-line: rgba(255,255,255,.18);
+    --dark-pill-text: #eef0f5;
+    --tbc: #9aa2ad;
+
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--body);
+    line-height: 1.7;
+    font-size: 17px;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 8px 4px 32px;
+    -webkit-font-smoothing: antialiased;
+    text-align: left;
+    hyphens: none;
+  }
+
+  #mlt-ymyl *, #mlt-ymyl *::before, #mlt-ymyl *::after { box-sizing: border-box; }
+
+  #mlt-ymyl h2, #mlt-ymyl h3, #mlt-ymyl h4 {
+    font-family: "Libre Franklin", "Inter", sans-serif !important;
+    color: var(--ink) !important;
+    line-height: 1.22;
+    letter-spacing: -0.015em;
+    margin: 0 0 0.5em;
+    text-align: left;
+  }
+  #mlt-ymyl h2 { font-size: clamp(1.55rem, 3.4vw, 2.15rem); font-weight: 700 !important; margin-top: 2.6rem; }
+  #mlt-ymyl h3 { font-size: 1.18rem; font-weight: 700 !important; }
+  #mlt-ymyl h4 { font-size: 1.02rem; font-weight: 700 !important; }
+  #mlt-ymyl p { color: var(--body) !important; margin: 0 0 1.05rem; font-size: 1.0625rem; line-height: 1.72; }
+  #mlt-ymyl strong { color: var(--ink); font-weight: 700; }
+
+  #mlt-ymyl a { color: var(--pink) !important; text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; transition: color .18s ease; }
+  #mlt-ymyl a:hover { color: var(--pink-d) !important; }
+  #mlt-ymyl a:focus-visible { outline: 3px solid var(--pink-focus); outline-offset: 2px; border-radius: 3px; }
+
+  /* Eyebrow / kicker */
+  #mlt-ymyl .mlt-kicker {
+    display: inline-block; font-family: "Libre Franklin", sans-serif; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .14em; font-size: .72rem; color: var(--pink);
+    margin: 0 0 .6rem;
+  }
+
+  /* Intro band */
+  #mlt-ymyl .mlt-intro {
+    background: var(--blue-soft);
+    border: 1px solid var(--blue-line);
+    border-radius: 18px;
+    padding: clamp(22px, 4vw, 38px);
+    margin-bottom: 2.2rem;
+  }
+  #mlt-ymyl .mlt-intro h2 { margin-top: 0; font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 800 !important; }
+  #mlt-ymyl .mlt-intro .mlt-lede { font-size: 1.12rem; color: var(--lede-ink) !important; }
+
+  /* LinkedIn-style post card */
+  #mlt-ymyl .mlt-post {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 22px 22px 8px; margin: 1.4rem 0 1.6rem; box-shadow: 0 8px 24px rgba(20,30,50,.06);
+  }
+  #mlt-ymyl .mlt-post-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  #mlt-ymyl .mlt-avatar {
+    width: 46px; height: 46px; border-radius: 50%; flex: 0 0 46px; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-family: "Libre Franklin", sans-serif; font-weight: 700; font-size: .95rem; letter-spacing: .02em;
+  }
+  #mlt-ymyl .mlt-av-sm { background: var(--pink); }
+  #mlt-ymyl .mlt-av-ah { background: var(--av-ah); }
+  #mlt-ymyl .mlt-av-jm { background: var(--av-jm); }
+  #mlt-ymyl .mlt-av-kc { background: var(--av-kc); }
+  #mlt-ymyl .mlt-post-name { font-family: "Libre Franklin", sans-serif; font-weight: 700; color: var(--ink); line-height: 1.2; }
+  #mlt-ymyl .mlt-post-sub { font-size: .82rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  #mlt-ymyl .mlt-post-sub svg { width: 14px; height: 14px; }
+  #mlt-ymyl .mlt-post .mlt-shout { font-family: "Libre Franklin", sans-serif; font-weight: 800; color: var(--ink); font-size: 1.15rem; }
+
+  /* Comment cards */
+  #mlt-ymyl .mlt-comment {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--tint); border: 1px solid var(--line); border-radius: 14px;
+    padding: 14px 16px; margin: 12px 0;
+  }
+  #mlt-ymyl .mlt-comment .mlt-avatar { width: 38px; height: 38px; flex-basis: 38px; font-size: .82rem; }
+  #mlt-ymyl .mlt-comment p { margin: 0; font-size: 1rem; }
+  #mlt-ymyl .mlt-cname { font-weight: 700; color: var(--ink); }
+
+  /* Pull quote */
+  #mlt-ymyl .mlt-quote {
+    border-left: 4px solid var(--pink);
+    background: linear-gradient(90deg, var(--pink-a05), var(--pink-a0));
+    padding: 14px 20px; margin: 1.4rem 0; border-radius: 0 12px 12px 0;
+  }
+  #mlt-ymyl .mlt-quote p { font-family: "Libre Franklin", sans-serif; font-weight: 600; font-size: 1.22rem; color: var(--ink) !important; line-height: 1.45; margin: 0; }
+  #mlt-ymyl .mlt-quote .mlt-cite { display: block; margin-top: 8px; font-family: "Inter", sans-serif; font-weight: 600; font-size: .85rem; color: var(--pink); letter-spacing: .02em; }
+
+  /* Callout */
+  #mlt-ymyl .mlt-callout {
+    background: var(--tint); border: 1px solid var(--line); border-radius: 16px;
+    padding: 22px 24px; margin: 1.5rem 0;
+  }
+  #mlt-ymyl .mlt-callout h3 { margin-top: 0; }
+
+  /* Generic chip/pill cluster */
+  #mlt-ymyl .mlt-pills { display: flex; flex-wrap: wrap; gap: 9px; margin: 1.1rem 0 1.4rem; }
+  #mlt-ymyl .mlt-pill {
+    display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 999px;
+    font-size: .92rem; font-weight: 500; line-height: 1.2;
+  }
+  #mlt-ymyl .mlt-pill svg { width: 15px; height: 15px; flex: 0 0 15px; }
+  #mlt-ymyl .mlt-pill.good { background: var(--good-bg); border: 1px solid var(--good-line); color: var(--good-d); }
+  #mlt-ymyl .mlt-pill.good svg { color: var(--good); }
+  #mlt-ymyl .mlt-pill.warn { background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--warn); }
+  #mlt-ymyl .mlt-pill.warn svg { color: var(--warn-d); }
+  #mlt-ymyl .mlt-pill.brand { background: #fff; border: 1px solid var(--line); color: var(--ink); }
+  #mlt-ymyl .mlt-pill.brand svg { color: var(--pink); }
+
+  /* Checklist grid */
+  #mlt-ymyl .mlt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1.2rem 0 1.5rem; }
+  #mlt-ymyl .mlt-check {
+    display: flex; gap: 11px; align-items: flex-start;
+    background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 13px 15px;
+  }
+  #mlt-ymyl .mlt-check svg { width: 19px; height: 19px; flex: 0 0 19px; margin-top: 2px; color: var(--green-d); }
+  #mlt-ymyl .mlt-check span { font-size: .98rem; color: var(--body); line-height: 1.45; }
+
+  /* E-E-A-T cards */
+  #mlt-ymyl .mlt-eeat { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 1.3rem 0 1.5rem; }
+  #mlt-ymyl .mlt-eeat-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 14px; text-align: center; }
+  #mlt-ymyl .mlt-eeat-badge {
+    width: 42px; height: 42px; border-radius: 11px; background: var(--pink-a10); color: var(--pink);
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;
+    font-family: "Libre Franklin", sans-serif; font-weight: 800; font-size: 1.25rem;
+  }
+  #mlt-ymyl .mlt-eeat-card b { display: block; font-family: "Libre Franklin", sans-serif; color: var(--ink); font-size: .95rem; }
+
+  /* Feature cards (rewards / weaknesses) */
+  #mlt-ymyl .mlt-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 1.3rem 0 1.6rem; }
+  #mlt-ymyl .mlt-fcard { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px; position: relative; }
+  #mlt-ymyl .mlt-fcard .mlt-ico {
+    width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 11px;
+  }
+  #mlt-ymyl .mlt-fcard .mlt-ico svg { width: 19px; height: 19px; }
+  #mlt-ymyl .mlt-fcard.good { border-top: 3px solid var(--green); }
+  #mlt-ymyl .mlt-fcard.good .mlt-ico { background: var(--good-bg); color: var(--good); }
+  #mlt-ymyl .mlt-fcard.warn { border-top: 3px solid var(--warn-line-d); }
+  #mlt-ymyl .mlt-fcard.warn .mlt-ico { background: var(--warn-bg); color: var(--warn-d); }
+  #mlt-ymyl .mlt-fcard h4 { margin: 0 0 6px; }
+  #mlt-ymyl .mlt-fcard p { margin: 0; font-size: .97rem; color: var(--muted) !important; line-height: 1.55; }
+
+  /* Numbered steps */
+  #mlt-ymyl .mlt-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 1.3rem 0 1.6rem; }
+  #mlt-ymyl .mlt-step { display: flex; gap: 14px; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 17px 18px; }
+  #mlt-ymyl .mlt-step-n {
+    font-family: "Libre Franklin", sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--pink);
+    background: var(--pink-a09); width: 40px; height: 40px; border-radius: 10px; flex: 0 0 40px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #mlt-ymyl .mlt-step h4 { margin: 2px 0 5px; }
+  #mlt-ymyl .mlt-step p { margin: 0; font-size: .96rem; color: var(--muted) !important; line-height: 1.55; }
+
+  /* CTA bands */
+  #mlt-ymyl .mlt-cta {
+    border-radius: 18px; padding: clamp(24px, 4vw, 40px); margin: 2.2rem 0;
+  }
+  #mlt-ymyl .mlt-cta.light { background: var(--blue-soft); border: 1px solid var(--blue-line); }
+  #mlt-ymyl .mlt-cta.dark { background: var(--dark); }
+  #mlt-ymyl .mlt-cta.dark h2, #mlt-ymyl .mlt-cta.dark h3 { color: #fff !important; }
+  #mlt-ymyl .mlt-cta.dark p { color: var(--dark-p) !important; }
+  #mlt-ymyl .mlt-cta.dark .mlt-kicker { color: var(--pink-light); }
+  #mlt-ymyl .mlt-cta h2, #mlt-ymyl .mlt-cta h3 { margin-top: 0; }
+  #mlt-ymyl .mlt-cta .mlt-pills { margin: 1rem 0 1.4rem; }
+  #mlt-ymyl .mlt-cta.dark .mlt-pill { background: var(--dark-pill-bg); border: 1px solid var(--dark-pill-line); color: var(--dark-pill-text); }
+  #mlt-ymyl .mlt-cta.dark .mlt-pill svg { color: var(--green); }
+  #mlt-ymyl .mlt-cta.light .mlt-pill { background: #fff; border: 1px solid var(--blue-line); color: var(--ink); }
+  #mlt-ymyl .mlt-cta.light .mlt-pill svg { color: var(--green-d); }
+
+  /* Button */
+  #mlt-ymyl .mlt-btn {
+    display: inline-flex; align-items: center; gap: 9px; background: var(--green) !important; color: var(--ink-green) !important;
+    font-family: "Libre Franklin", sans-serif; font-weight: 700; font-size: 1rem; text-decoration: none !important;
+    padding: 13px 26px; border-radius: 999px; transition: background .18s ease, transform .18s ease;
+  }
+  #mlt-ymyl .mlt-btn:hover { background: var(--green-d) !important; transform: translateY(-1px); }
+  #mlt-ymyl .mlt-btn:focus-visible { outline: 3px solid var(--green-focus); outline-offset: 3px; }
+  #mlt-ymyl .mlt-btn svg { width: 18px; height: 18px; }
+
+  /* Scoring table placeholder */
+  #mlt-ymyl .mlt-tablewrap { border: 2px dashed var(--blue-line); border-radius: 16px; padding: 18px; background: var(--tint); margin: 1.4rem 0 1.6rem; }
+  #mlt-ymyl .mlt-tablenote { font-size: .85rem; color: var(--muted); margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+  #mlt-ymyl .mlt-tablenote svg { width: 16px; height: 16px; color: var(--pink); flex: 0 0 16px; }
+  #mlt-ymyl table.mlt-score { width: 100%; border-collapse: separate; border-spacing: 0; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+  #mlt-ymyl table.mlt-score th, #mlt-ymyl table.mlt-score td { text-align: left; padding: 12px 14px; font-size: .95rem; border-bottom: 1px solid var(--line); }
+  #mlt-ymyl table.mlt-score thead th { background: var(--ink); color: #fff !important; font-family: "Libre Franklin", sans-serif; font-weight: 600; }
+  #mlt-ymyl table.mlt-score tbody th { font-weight: 600; color: var(--ink); }
+  #mlt-ymyl table.mlt-score td.mlt-tbc { color: var(--tbc); font-variant-numeric: tabular-nums; text-align: center; font-size: .82rem; letter-spacing: .04em; }
+  #mlt-ymyl table.mlt-score tbody tr:last-child th, #mlt-ymyl table.mlt-score tbody tr:last-child td { border-bottom: none; }
+
+  #mlt-ymyl .mlt-concl { background: var(--tint); border: 1px solid var(--line); border-left: 4px solid var(--pink); border-radius: 0 14px 14px 0; padding: 22px 24px; margin: 1.4rem 0; }
+  #mlt-ymyl .mlt-concl h2 { margin-top: 0; }
+
+  @media (max-width: 680px) {
+    #mlt-ymyl { font-size: 16px; }
+    #mlt-ymyl .mlt-grid, #mlt-ymyl .mlt-cards, #mlt-ymyl .mlt-steps { grid-template-columns: 1fr; }
+    #mlt-ymyl .mlt-eeat { grid-template-columns: repeat(2, 1fr); }
+    #mlt-ymyl table.mlt-score th, #mlt-ymyl table.mlt-score td { padding: 9px 8px; font-size: .85rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #mlt-ymyl * { transition: none !important; }
+  }
+</style>
+
+<div id="mlt-ymyl">
+
+  <!-- ============ INTRODUCTION ============ -->
+  <section class="mlt-intro">
+    <span class="mlt-kicker">Insights</span>
+    <h2>Introduction</h2>
+    <p class="mlt-lede">Our CEO <a href="https://www.mltdigital.co.uk/our-team/stephen-moore/">Stephen Moore</a> posted recently on <a href="https://www.linkedin.com/feed/update/urn:li:share:7460316874573066241/">LinkedIn</a>:-</p>
+
+    <div class="mlt-post">
+      <div class="mlt-post-head">
+        <div class="mlt-avatar mlt-av-sm">SM</div>
+        <div>
+          <div class="mlt-post-name">Stephen Moore</div>
+          <div class="mlt-post-sub">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.74v20.52C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.74V1.74C24 .78 23.2 0 22.22 0z"/></svg>
+            CEO, MLT Digital
+          </div>
+        </div>
+      </div>
+      <p class="mlt-shout">Your money, or your life!</p>
+      <p>The refrain of the infamous highway and&hellip;..Google!</p>
+      <p>We&rsquo;ve heard reports of number of law firm websites suffering a significant drop in organic traffic over the course of the last month following a major algorithm update.</p>
+      <p><strong>Why?</strong></p>
+      <p>Law firm websites sit within one of Google&rsquo;s most heavily scrutinised categories. (Your Money or Your Life &ndash; hence the pic) and as it increasingly uses AI to summarise and recommend information directly within search results, Google must trust the information it surfaces.</p>
+      <p>Old content that cut the mustard for many years may not be good enough any more resulting in traffic .</p>
+      <p>If this is you and you need help give <a href="https://www.linkedin.com/company/mltdigital/">MLT Digital</a> a shout please. You won&rsquo;t be held to ransom.</p>
+    </div>
+
+    <p>Comments on LinkedIn included those from:-</p>
+
+    <div class="mlt-comment">
+      <div class="mlt-avatar mlt-av-ah">AH</div>
+      <p><span class="mlt-cname">Alex Heshmaty</span>:- &ldquo;We&rsquo;re all held ransom to AI now &ndash; even Google itself!&rdquo;</p>
+    </div>
+    <div class="mlt-comment">
+      <div class="mlt-avatar mlt-av-jm">JM</div>
+      <p><span class="mlt-cname">John McCarthy</span>: &ldquo;very true! The &ldquo;we&rsquo;ve done SEO&rdquo; then Fire &amp; Forget tactics don&rsquo;t work anymore. The websites taking all the leads are the ones that have moved forward &hellip;&hellip; to <a href="https://www.mltdigital.co.uk/geo-for-law-firms-ai-search-visibility-by-mlt-digital/">GEO</a>&rdquo; ; and</p>
+    </div>
+    <div class="mlt-comment">
+      <div class="mlt-avatar mlt-av-kc">KC</div>
+      <p><span class="mlt-cname">Karen Clarkson</span>: &ldquo;That&rsquo;s so odd&hellip;I&rsquo;d never heard this phrase before but today I&rsquo;ve heard it twice!&rdquo; &hellip; To which Stephen provided a link to the &ldquo;<a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content">highwayman horse&rsquo;s mouth</a>&rdquo;.</p>
+    </div>
+  </section>
+
+  <!-- ============ YMYL CATEGORY ============ -->
+  <h2>Law firm websites and Google&rsquo;s &ldquo;Your Money or Your Life&rdquo; content category</h2>
+  <p>Over the past few weeks, many law firms have seen noticeable drops in organic search traffic following Google&rsquo;s latest algorithm updates.</p>
+  <p>For some firms, rankings that stayed stable for years have suddenly slipped. Enquiry volumes have slowed. Practice area pages that once performed consistently are no longer attracting the same visibility.</p>
+  <p>The reason is not random.</p>
+  <p>Law firm websites sit within one of Google&rsquo;s most heavily scrutinised content categories: YMYL, short for &ldquo;Your Money or Your Life&rdquo;. In simple terms, Google applies far stricter quality standards to legal content because inaccurate information can directly affect someone&rsquo;s finances, legal rights, personal wellbeing, or future decisions.</p>
+  <p>As AI becomes more deeply integrated into search results, Google must place greater trust in the content it surfaces. That shift is changing the standards law firm websites are judged against.</p>
+  <p>As our CEO Stephen Moore recently discussed on LinkedIn after reports emerged of law firms losing organic traffic following recent updates:</p>
+  <div class="mlt-quote"><p>&ldquo;Old content that cut the mustard for many years may not be good enough any more.&rdquo;</p><span class="mlt-cite">Stephen Moore, CEO, MLT Digital</span></div>
+  <p>That observation reflects a much wider shift taking place across legal search.</p>
+  <p>This article explores what YMYL means for law firms, why older SEO tactics are becoming less effective, and what firms should do now to maintain visibility in an AI-driven search environment.</p>
+
+  <!-- ============ WHAT DOES YMYL MEAN ============ -->
+  <h2>What does &ldquo;Your Money or Your Life&rdquo; mean?</h2>
+  <p>Many firms have heard the term YMYL without fully understanding the commercial implications.</p>
+  <p>Google uses the YMYL classification for websites covering subjects that can significantly affect a person&rsquo;s life, finances, health, safety, or legal position. Legal websites fall directly into this category.</p>
+  <p>The reason is straightforward. Someone relying on inaccurate legal information could make decisions with serious consequences. Search engines therefore apply a much higher threshold for trust, credibility, and authority.</p>
+  <p><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content">Google&rsquo;s own YMYL guidance</a> on creating helpful content makes this position clear. The search engine increasingly prioritises:</p>
+
+  <div class="mlt-grid">
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Demonstrable expertise</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Accurate and trustworthy information</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Clear authorship</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Helpful user experiences</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Up-to-date content</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Genuine authority signals</span></div>
+  </div>
+
+  <p>This is closely linked to Google&rsquo;s E-E-A-T framework:</p>
+  <div class="mlt-eeat">
+    <div class="mlt-eeat-card"><div class="mlt-eeat-badge">E</div><b>Experience</b></div>
+    <div class="mlt-eeat-card"><div class="mlt-eeat-badge">E</div><b>Expertise</b></div>
+    <div class="mlt-eeat-card"><div class="mlt-eeat-badge">A</div><b>Authoritativeness</b></div>
+    <div class="mlt-eeat-card"><div class="mlt-eeat-badge">T</div><b>Trustworthiness</b></div>
+  </div>
+  <p>For law firms, those signals are no longer optional additions to a marketing strategy. They now sit at the centre of sustainable search visibility.</p>
+
+  <!-- ============ WHY DROPS NOW ============ -->
+  <h2>Why law firms are seeing traffic drops now</h2>
+  <p>Many firms assume ranking declines must mean a penalty. In most cases, that is not what is happening.</p>
+  <p>The issue is that Google&rsquo;s standards for evaluating legal content are evolving rapidly.</p>
+  <p>Search engines are increasingly using AI-generated summaries and conversational search experiences. Google now attempts to answer many queries directly within search results instead of simply displaying a list of blue links.</p>
+  <p>That changes the way content is assessed.</p>
+  <p>Google needs confidence that the information it surfaces is:</p>
+  <div class="mlt-pills">
+    <span class="mlt-pill good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Accurate</span>
+    <span class="mlt-pill good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Reliable</span>
+    <span class="mlt-pill good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Current</span>
+    <span class="mlt-pill good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Clear</span>
+    <span class="mlt-pill good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Consistent</span>
+    <span class="mlt-pill good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Produced by credible sources</span>
+  </div>
+  <p><a href="https://www.mltdigital.co.uk/guides/content-marketing-for-law-firms/">Content marketing</a> that performed well for years may now appear:</p>
+  <div class="mlt-pills">
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Thin</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Generic</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Outdated</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Over-optimised</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Insufficiently authoritative</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Lacking real-world credibility</span>
+  </div>
+  <p>This is one reason many older law firm websites are struggling after recent updates.</p>
+  <p>Traditional SEO tactics often focused heavily on keywords, page volume, and technical optimisation. Those elements still matter, though they are no longer enough on their own.</p>
+  <p>Trust has become measurable.</p>
+  <p>Authority is now assessed not only at page level but across the entire website and brand.</p>
+
+  <!-- ============ THE AI SHIFT ============ -->
+  <h2>The AI shift: why search is changing faster than many firms realise</h2>
+  <p>AI is changing more than rankings. It is reshaping how information is delivered altogether.</p>
+  <p>Google&rsquo;s AI Overviews and conversational search tools increasingly summarise answers directly within search results. Users often receive legal information before clicking through to a website.</p>
+  <p>That means search engines must evaluate content with far greater scrutiny.</p>
+  <p>AI systems need confidence in:</p>
+  <div class="mlt-pills">
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>Expertise</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>Accuracy</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>Source reputation</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>Topical authority</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>Consistency</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>Structured information</span>
+  </div>
+  <p>This is not simply another algorithm adjustment. It represents a structural shift in how legal information is evaluated online.</p>
+  <p>Firms relying on outdated content strategies may find their visibility reduced even if they previously ranked well for years.</p>
+  <p>The law firms gaining traction are often those producing:</p>
+  <div class="mlt-grid">
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Clear legal guidance</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Well-structured content</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Strong authorship signals</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Consistent topic coverage</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Demonstrable expertise</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Helpful user experiences</span></div>
+  </div>
+  <p>AI-driven search environments reward confidence and credibility.</p>
+
+  <!-- ============ CTA 1 ============ -->
+  <div class="mlt-cta light">
+    <span class="mlt-kicker">MLT Digital</span>
+    <h2>Is your law firm website losing visibility?</h2>
+    <p>Google&rsquo;s evolving AI-driven search systems are changing how legal websites are ranked and trusted. Older SEO strategies and outdated content may no longer be enough.</p>
+    <p>At MLT Digital, we help law firms improve:</p>
+    <div class="mlt-pills">
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>SEO performance</span>
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>GEO / AI search visibility</span>
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>E-E-A-T signals</span>
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Content quality and authority</span>
+    </div>
+    <p>Speak to MLT Digital today to discuss your law firm&rsquo;s SEO and AI search strategy &ndash; please <a href="https://www.mltdigital.co.uk/contact-us/">get in touch with Chris Davidson or Jamie Young</a>.</p>
+    <a class="mlt-btn" href="https://www.mltdigital.co.uk/contact-us/">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+  </div>
+
+  <!-- ============ FIRE AND FORGET ============ -->
+  <h2>Why &ldquo;fire and forget&rdquo; SEO no longer works</h2>
+  <p>One of the most accurate observations following recent updates came from John McCarthy in reply to our LinkedIn post:</p>
+  <div class="mlt-quote"><p>&ldquo;The &lsquo;we&rsquo;ve done SEO&rsquo; then fire &amp; forget tactics don&rsquo;t work anymore.&rdquo;</p><span class="mlt-cite">John McCarthy</span></div>
+  <p>That reflects the reality facing many law firms.</p>
+  <p><a href="https://www.mltdigital.co.uk/guides/seo-for-law-firms/">SEO for law firms</a> is no longer a one-off project.</p>
+  <p>Search behaviour evolves constantly. Google updates its systems continuously. AI search tools refine how information is interpreted and surfaced.</p>
+  <p>A static website strategy now creates commercial risk.</p>
+  <p>Many firms still operate with:</p>
+  <div class="mlt-pills">
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Old service pages</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Blogs untouched for years</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Duplicate content across practice areas</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Minimal authorship information</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Thin location pages</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Weak internal linking</span>
+    <span class="mlt-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Generic SEO copy</span>
+  </div>
+  <p>These weaknesses become more visible as Google raises quality expectations.</p>
+  <p>Modern legal SEO requires continuous refinement.</p>
+  <p>That includes:</p>
+  <div class="mlt-grid">
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Monitoring performance volatility</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Updating outdated material</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Consolidating overlapping pages</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Improving topical authority</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Refreshing legal guidance</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Responding to search intent changes</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Structuring content for AI readability</span></div>
+  </div>
+  <p>Firms treating SEO as an occasional task are increasingly falling behind competitors investing in continuous optimisation.</p>
+
+  <!-- ============ SEO TO GEO ============ -->
+  <h2>From SEO to GEO: the next evolution of legal search visibility</h2>
+  <p>Traditional SEO still matters.</p>
+  <p>Yet many firms are now moving towards <a href="https://www.mltdigital.co.uk/geo-for-law-firms-ai-search-visibility-by-mlt-digital/">GEO: Generative Engine Optimisation</a>.</p>
+  <p>GEO focuses on improving visibility within AI-generated search experiences rather than relying solely on traditional rankings.</p>
+  <p>This involves producing content that AI systems can interpret, trust, and surface confidently.</p>
+  <p>Key elements include:</p>
+  <div class="mlt-grid">
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Structured answers</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Semantic clarity</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Topical depth</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Strong entity signals</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Demonstrable expertise</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Consistent terminology</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Clear legal explanations</span></div>
+  </div>
+  <p>John McCarthy described the shift clearly in reply to our LinkedIn post:</p>
+  <div class="mlt-quote"><p>&ldquo;The websites taking all the leads are the ones that have moved forward &hellip; to GEO.&rdquo;</p><span class="mlt-cite">John McCarthy</span></div>
+  <p>Firms adapting early to AI-driven search environments are likely to gain disproportionate visibility advantages.</p>
+  <p>The goal is no longer just ranking highly for keywords.</p>
+  <p>The goal is becoming a trusted source that AI systems repeatedly reference and surface.</p>
+
+  <!-- ============ WHAT GOOGLE REWARDS ============ -->
+  <h2>What Google appears to reward more heavily</h2>
+  <p>Recent updates suggest Google is placing increasing emphasis on several trust-related signals.</p>
+  <p>These include:</p>
+  <div class="mlt-cards">
+    <div class="mlt-fcard good"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5l-8-3z"/><path d="m9 12 2 2 4-4"/></svg></div><h4>Genuine Expertise</h4><p>Content written or reviewed by experienced legal professionals carries greater credibility.</p></div>
+    <div class="mlt-fcard good"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div><h4>Clear Authorship</h4><p>Named lawyers, detailed biographies, qualifications, and professional credentials help strengthen trust.</p></div>
+    <div class="mlt-fcard good"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/><polyline points="12 7 12 12 15 14"/></svg></div><h4>Updated Content</h4><p>Regularly reviewed legal information appears more reliable than pages left untouched for years.</p></div>
+    <div class="mlt-fcard good"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7-4.3-9.3-9C1.4 8.8 2.6 5.8 5.5 5.2c1.9-.4 3.6.6 4.5 2 .9-1.4 2.6-2.4 4.5-2 2.9.6 4.1 3.6 2.8 6.3-2.3 4.7-9.3 9-9.3 9z"/></svg></div><h4>Helpful User Experience</h4><p>Clear navigation, accessible layouts, and logically structured pages improve usability.</p></div>
+    <div class="mlt-fcard good"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="21"/><line x1="6" y1="8" x2="18" y2="8"/><line x1="6" y1="14" x2="14" y2="14"/></svg></div><h4>Topical Depth</h4><p>Comprehensive coverage of legal subjects often performs better than shallow standalone pages.</p></div>
+    <div class="mlt-fcard good"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div><h4>Consistency Across Content</h4><p>Websites with aligned messaging, terminology, and authority signals across all pages appear stronger.</p></div>
+    <div class="mlt-fcard good"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15 9 22 9.3 16.5 13.8 18.5 21 12 16.8 5.5 21 7.5 13.8 2 9.3 9 9 12 2"/></svg></div><h4>Real-World Credibility</h4><p>Awards, case studies, reviews, media mentions, and external references can all strengthen trust.</p></div>
+  </div>
+  <p>Generic SEO copy is becoming increasingly ineffective within YMYL sectors.</p>
+  <p>Google appears far more focused on whether a firm genuinely demonstrates expertise rather than simply targeting keywords.</p>
+
+  <!-- ============ COMMON WEAKNESSES ============ -->
+  <h2>Common weaknesses on law firm websites</h2>
+  <p>Many firms are not losing visibility because they recently made mistakes.</p>
+  <p>The wider search environment has evolved around them.</p>
+  <p>Common weaknesses now affecting legal websites include:</p>
+  <div class="mlt-cards">
+    <div class="mlt-fcard warn"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h4>Thin Service Pages</h4><p>Short pages with limited legal insight often struggle to demonstrate authority.</p></div>
+    <div class="mlt-fcard warn"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h4>Duplicate Practice Area Content</h4><p>Repetitive content across multiple location pages weakens credibility.</p></div>
+    <div class="mlt-fcard warn"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h4>No Named Authors</h4><p>Anonymous content provides fewer trust signals.</p></div>
+    <div class="mlt-fcard warn"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h4>Outdated Blogs</h4><p>Old articles containing outdated legal references may reduce perceived reliability.</p></div>
+    <div class="mlt-fcard warn"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h4>Over-Optimised Keywords</h4><p>Content written primarily for search engines rather than users often feels unnatural.</p></div>
+    <div class="mlt-fcard warn"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h4>Weak E-E-A-T Signals</h4><p>Limited evidence of expertise or trust can reduce visibility.</p></div>
+    <div class="mlt-fcard warn"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h4>Poor Internal Linking</h4><p>Disconnected content weakens topical authority.</p></div>
+    <div class="mlt-fcard warn"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h4>No Wider Content Strategy</h4><p>Publishing isolated pages without broader subject coverage limits authority development.</p></div>
+    <div class="mlt-fcard warn"><div class="mlt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h4>AI-Generated Content Without Oversight</h4><p>Poorly reviewed AI copy can introduce inaccuracies and weaken credibility.</p></div>
+  </div>
+  <p>Many firms still rely on tactics that worked effectively several years ago. Search expectations have changed significantly since then.</p>
+
+  <!-- ============ SMART FIRMS ============ -->
+  <h2>What smart law firms are doing differently</h2>
+  <p>The strongest-performing firms increasingly treat website content as strategic infrastructure rather than marketing filler.</p>
+  <p>They are:</p>
+  <div class="mlt-grid">
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Updating and consolidating old content</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Building topic authority across entire practice areas</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Improving lawyer biographies and authorship signals</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Producing genuinely useful legal insights</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Structuring pages for AI readability</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Strengthening internal linking</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Monitoring search performance continuously</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Investing in GEO strategies</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Reviewing content quality regularly</span></div>
+    <div class="mlt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Combining SEO with UX and conversion optimisation</span></div>
+  </div>
+  <p>Successful firms are focusing less on publishing large volumes of content and more on building measurable authority.</p>
+  <p>That often means fewer pages, better structured information, and stronger expertise signals.</p>
+
+  <!-- ============ MLT PERSPECTIVE ============ -->
+  <h2>MLT&rsquo;s perspective: AI changes the rules, not the fundamentals</h2>
+  <p>AI is raising standards, though the underlying principles remain familiar.</p>
+  <p>Trust, expertise, clarity, and credibility still matter most.</p>
+  <p>AI simply makes those signals more measurable.</p>
+  <p>Alex Heshmaty commented recently on LinkedIn in reply to our post:</p>
+  <div class="mlt-quote"><p>&ldquo;We&rsquo;re all held ransom to AI now &mdash; even Google itself!&rdquo;</p><span class="mlt-cite">Alex Heshmaty</span></div>
+  <p>That observation reflects the speed of change within search.</p>
+  <p>At MLT Digital, our approach focuses on combining:</p>
+  <div class="mlt-pills">
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>GEO strategy</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>Advanced SEO</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>User experience optimisation</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>Conversion rate optimisation</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>Content refinement</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>AI-assisted analysis</span>
+    <span class="mlt-pill brand"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="5"/></svg>Human legal expertise</span>
+  </div>
+  <p>AI tools can support research and efficiency, though effective legal marketing still depends on accuracy, strategic oversight, and credible expertise.</p>
+  <p>The firms performing best are usually those combining modern search strategies with genuine subject authority.</p>
+  <p>For an example of how our Team has been optimising content using a proprietary AI scoring GPT, see this table here:-</p>
+
+  <div class="mlt-tablewrap">
+    <p class="mlt-tablenote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Placeholder table. Drop your before and after scores into the cells below.</p>
+    <table class="mlt-score">
+      <thead>
+        <tr><th scope="col">Metric</th><th scope="col">Before</th><th scope="col">After</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Organic SEO</th><td class="mlt-tbc">TBC</td><td class="mlt-tbc">TBC</td></tr>
+        <tr><th scope="row">GEO</th><td class="mlt-tbc">TBC</td><td class="mlt-tbc">TBC</td></tr>
+        <tr><th scope="row">Topical authority</th><td class="mlt-tbc">TBC</td><td class="mlt-tbc">TBC</td></tr>
+        <tr><th scope="row">Conversion</th><td class="mlt-tbc">TBC</td><td class="mlt-tbc">TBC</td></tr>
+        <tr><th scope="row">Readability</th><td class="mlt-tbc">TBC</td><td class="mlt-tbc">TBC</td></tr>
+        <tr><th scope="row">EEAT</th><td class="mlt-tbc">TBC</td><td class="mlt-tbc">TBC</td></tr>
+        <tr><th scope="row">YMYL compliance</th><td class="mlt-tbc">TBC</td><td class="mlt-tbc">TBC</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>This shows before and after scoring based on a range of relevant content marketing metrics, including organic SEO, GEO, topical authority, conversion, readability, EEAT and YMYL compliance.</p>
+
+  <!-- ============ WHAT TO DO NOW (STEPS) ============ -->
+  <h2>What law firms should do now</h2>
+  <p>Firms experiencing visibility declines should avoid reacting impulsively.</p>
+  <p>A structured review is far more effective.</p>
+  <p>Key priorities include:</p>
+  <div class="mlt-steps">
+    <div class="mlt-step"><div class="mlt-step-n">01</div><div><h4>Audit Declining Pages</h4><p>Identify which pages lost traffic and assess content quality objectively.</p></div></div>
+    <div class="mlt-step"><div class="mlt-step-n">02</div><div><h4>Review Outdated Content</h4><p>Refresh legal guidance, remove obsolete references, and improve clarity.</p></div></div>
+    <div class="mlt-step"><div class="mlt-step-n">03</div><div><h4>Improve E-E-A-T Signals</h4><p>Strengthen lawyer profiles, authorship details, and credibility indicators.</p></div></div>
+    <div class="mlt-step"><div class="mlt-step-n">04</div><div><h4>Refresh Practice Area Pages</h4><p>Expand thin content and improve legal depth.</p></div></div>
+    <div class="mlt-step"><div class="mlt-step-n">05</div><div><h4>Strengthen Internal Linking</h4><p>Connect related legal topics logically to improve authority signals.</p></div></div>
+    <div class="mlt-step"><div class="mlt-step-n">06</div><div><h4>Review Technical SEO And UX</h4><p>Improve usability, page speed, mobile performance, and navigation.</p></div></div>
+    <div class="mlt-step"><div class="mlt-step-n">07</div><div><h4>Adapt Content For AI Search</h4><p>Structure information clearly so AI systems can interpret and surface it effectively.</p></div></div>
+    <div class="mlt-step"><div class="mlt-step-n">08</div><div><h4>Move From Reactive SEO To Continuous Optimisation</h4><p>Search visibility now requires ongoing refinement rather than occasional updates.</p></div></div>
+  </div>
+  <p>The firms responding proactively are far more likely to stabilise and improve long-term visibility.</p>
+
+  <!-- ============ CONCLUSIONS ============ -->
+  <div class="mlt-concl">
+    <h2>Conclusions</h2>
+    <p>Google&rsquo;s evolving approach to YMYL content is not a temporary fluctuation.</p>
+    <p>It reflects a much wider AI-driven shift towards trust, authority, expertise, and content quality.</p>
+    <p>For law firms, that creates both risk and opportunity.</p>
+    <p>Firms relying on outdated SEO strategies and static website content may continue to lose visibility as AI search evolves.</p>
+    <p>Firms investing in authoritative, well-structured, genuinely useful legal content are more likely to strengthen their position.</p>
+    <p>The search environment has changed significantly.</p>
+    <p>The key question is whether firms are adapting quickly enough.</p>
+  </div>
+
+  <!-- ============ FINAL CTA ============ -->
+  <div class="mlt-cta dark">
+    <span class="mlt-kicker">Future-Proof Your Law Firm&rsquo;s Search Visibility</span>
+    <h2>Future-Proof Your Law Firm&rsquo;s Search Visibility</h2>
+    <p>At MLT Digital, with more than 20 years&rsquo; experience, we help law firms adapt to the changing search landscape through a combination of:</p>
+    <div class="mlt-pills">
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Legal SEO strategy</span>
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>GEO (Generative Engine Optimisation)</span>
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Content refinement</span>
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>E-E-A-T improvement</span>
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Technical SEO</span>
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Conversion optimisation</span>
+      <span class="mlt-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>AI-assisted search analysis</span>
+    </div>
+    <p>We work with firms across the legal sector to improve visibility, strengthen topical authority, and build websites that perform effectively in both traditional search and AI-generated search experiences.</p>
+    <p>Whether your website has experienced a recent decline or you want to future-proof your digital visibility, our team can provide a structured review of your current position and identify opportunities for improvement.</p>
+    <p>Speak to MLT Digital today to discuss your law firm&rsquo;s SEO and AI search strategy &ndash; please <a href="https://www.mltdigital.co.uk/contact-us/">get in touch with Chris Davidson or Jamie Young</a>.</p>
+    <a class="mlt-btn" href="https://www.mltdigital.co.uk/contact-us/">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+  </div>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Law firm websites and Google's “Your Money or Your Life” content category",
+  "description": "This article explores what YMYL means for law firms, why older SEO tactics are becoming less effective, and what firms should do now to maintain visibility in an AI-driven search environment.",
+  "about": ["YMYL", "E-E-A-T", "Legal SEO", "Generative Engine Optimisation"],
+  "author": {
+    "@type": "Person",
+    "name": "Stephen Moore",
+    "jobTitle": "CEO",
+    "url": "https://www.mltdigital.co.uk/our-team/stephen-moore/",
+    "worksFor": { "@type": "Organization", "name": "MLT Digital", "url": "https://www.mltdigital.co.uk/" }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "MLT Digital",
+    "url": "https://www.mltdigital.co.uk/"
+  },
+  "datePublished": "2026-06-17",
+  "dateModified": "2026-06-17"
+}
+</script>
