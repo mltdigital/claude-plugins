@@ -56,6 +56,10 @@ open and edit the actual HTML deliverables.
 
 ## Changelog
 
+**0.3.0**
+- Fact-sheet detection: when a named client has no sheet in `references/clients/`, Claude says so up front, builds from the brief and live page, and offers to write a sheet at the end from `references/clients/_template.md`. Existing sheets are updated in-session when a build verifies something they lack.
+- Content width is now measured per page template on the target page's insertion container, with sidebar presence recorded, instead of on the reference page or from a single site-wide figure.
+
 **0.2.0**
 - Added a ninth build standard: inherit colour from the site's own tokens before hard-coding, with no dead tokens or orphan literals.
 - Added `scripts/check-block.py`, a stdlib regression check for structure, scoping, tokens and JSON-LD drift, and `references/block-anatomy.md` defining the fixed file shape and handover header.

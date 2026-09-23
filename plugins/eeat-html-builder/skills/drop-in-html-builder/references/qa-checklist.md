@@ -75,7 +75,7 @@ Use https://webaim.org/resources/contrastchecker/ if you are not sure. If anythi
 - [ ] Every selector starts with the block's unique id (`#client-page-block`), including inside `@media`. ID specificity beats theme selectors without blanket `!important` (see `cms-override-patterns.md`). The check script enforces this.
 - [ ] No `<form>` inside the block. A form belongs in a native widget; split the block around it (see `block-anatomy.md`).
 - [ ] `!important` used only on properties the theme is actually overriding; the script warns above 15 uses
-- [ ] Tested at the content area's actual max-width, not at full viewport; measured on the reference page, not assumed (Wright & Crawford's own sheet records 1080px)
+- [ ] Tested at the target page's own content width: measured on the insertion container of the actual target page (not `main`/`body`, not the reference page, not a fact-sheet figure from a different template), with sidebar presence noted; the width, template and sidebar status are recorded in the handover header
 - [ ] Anything dynamic (ACF field, dynamic tag, shortcode) sits in a native widget outside the fragment; the HTML widget outputs raw content and does not process them
 
 **WordPress (general)**

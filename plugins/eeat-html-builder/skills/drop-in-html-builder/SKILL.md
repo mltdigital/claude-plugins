@@ -32,9 +32,15 @@ constraints, and style information) ask for the missing ones before doing
 anything else. Do not start a build on a partial brief; that is what causes the
 back-and-forth.
 
-If the named client already has a fact sheet in `references/clients/`, load it now
-(see "Client facts" below). It supplies the CMS, design tokens, verified URLs, and
-call-tracking setup so you do not re-derive them.
+Check `references/clients/` for a fact sheet matching the named client. If one
+exists, load it now (see "Client facts" below). It supplies the CMS, design tokens,
+verified URLs, and call-tracking setup so you do not re-derive them.
+
+If none exists, say so in one line before doing anything else ("No fact sheet for
+[client] yet; I'll build from the brief and the live page, and offer to write one
+at the end"). Do not silently proceed. Everything you verify during this build
+(tokens, widths, URLs, call tracking, form anchors) is fact-sheet material, so keep
+it as you go rather than reconstructing it afterwards.
 
 ### Step 2 — Extract the live style reference
 
@@ -142,8 +148,16 @@ technical patterns in `references/cms-override-patterns.md`. The essentials:
   colour token, with the verified value as fallback, once you have confirmed it
   carries the rendered brand colour.
 - **Use `!important` surgically**, only on properties actually being overridden.
-- **Build and preview at the real content width.** Measure it on the reference
-  page; don't assume 750–900px (Wright & Crawford's own sheet records 1080px).
+- **Build and preview at the target page's own content width.** Never assume a
+  figure and never carry one over from another page or a fact sheet without
+  checking: width is a property of the page template, not the site. A service page
+  with no sidebar and a blog single with a sidebar on the same site can differ by
+  several hundred pixels. Measure the insertion container on the actual target
+  page (the element the block will sit in, not `main` or `body`, which may include
+  the sidebar), note whether a sidebar is present, and record both in the handover
+  header and the fact sheet as a per-template value. If the reference page uses a
+  different template from the target, the target's measurement wins for layout
+  and the reference is used for styling only.
 
 ## Standing rules for every job
 
@@ -176,6 +190,19 @@ Treat tokens as point-in-time and re-verify against the live page if a build loo
 off — sites change. Call-tracking numbers (CallRail, Infinity) are swapped on
 render; keep whatever number is in the supplied content unless the sheet says
 otherwise.
+
+**Creating a sheet for a new client.** When a build finishes for a client with no
+sheet, offer to write one. On a yes, copy `references/clients/_template.md` to
+`references/clients/<client-slug>.md` and fill every bullet from what was verified
+during the build; mark anything not captured as "not yet captured" rather than
+guessing. Then add the client to the list above and to the trigger list in this
+file's front matter. Because the plugin is distributed through the marketplace, a
+new sheet only reaches the team once the plugin version is bumped and pushed, so
+tell the user that step is needed.
+
+**Updating an existing sheet.** When a build verifies something the sheet lacks or
+contradicts (a new page template's width, a token name, a URL that now 404s),
+append or correct the sheet in the same session and note the date.
 
 ## Worked examples
 
