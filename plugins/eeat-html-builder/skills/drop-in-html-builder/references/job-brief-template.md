@@ -2,6 +2,8 @@
 
 Paste this at the start of every new job in this project. Fill in every field before sending. The more accurate this is upfront, the less back-and-forth during the build.
 
+If the client has no fact sheet in `references/clients/` yet, Claude will also ask the questions in `references/fact-sheet-questions.md` before building. Answering them once creates the sheet, so later jobs for that client skip them.
+
 ---
 
 ## Client and page context

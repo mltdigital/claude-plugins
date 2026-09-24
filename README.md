@@ -29,7 +29,7 @@ Then `/reload-plugins` or start a new session.
 
 | Plugin | Version | What it does |
 | --- | --- | --- |
-| [eeat-html-builder](plugins/eeat-html-builder/) | 0.4.0 | Drop-in YMYL/EEAT HTML content blocks for law firm sites |
+| [eeat-html-builder](plugins/eeat-html-builder/) | 0.5.0 | Drop-in YMYL/EEAT HTML content blocks for law firm sites |
 
 ## Publishing a change (maintainer)
 

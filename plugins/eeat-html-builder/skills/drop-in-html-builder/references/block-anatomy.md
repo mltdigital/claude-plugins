@@ -97,6 +97,8 @@ Splitting: deliver `part-1` and `part-2` with root ids `#prefix-page-1` and `#pr
 
 ## Header template
 
+Never write tag syntax (anything in angle brackets) inside the header or any other comment. Server-side minifiers such as LiteSpeed Cache read a `<style>` or `<script>` written inside a comment as a real tag and delete everything up to the next real closing tag for logged-out visitors. Name tags in words instead: "a style block", "html, head or body tags". `check-block.py` fails on it.
+
     <!--
       BLOCK        Wright & Crawford: divorce and separation (drop-in content block)
       Root id      #wc-divorce-separation   Prefix --wc- / .wc-
@@ -129,10 +131,10 @@ Splitting: deliver `part-1` and `part-2` with root ids `#prefix-page-1` and `#pr
         step name. If you change one, change both. check-block.py reports drift.
 
       DO NOT
-        wrap this in <html>/<head>/<body>; it is a fragment
+        wrap this in html, head or body tags; it is a fragment
         move the CSS into the theme without keeping the #wc-divorce-separation prefix on every selector
         add @import or @font-face; the site loads the fonts
-        add <form> or <button> inside the block; use a native widget and split the block
+        add a form or button element inside the block; use a native widget and split the block
         put a backup path, server path or staging credential in this header
 
       SECTIONS     [1] INTRO  [2] KEY POINTS  [3] STEP-BY-STEP GUIDE  [4] FINANCIAL SETTLEMENTS

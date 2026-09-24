@@ -79,6 +79,9 @@ Use https://webaim.org/resources/contrastchecker/ if you are not sure. If anythi
 - [ ] Tested at the target page's own content width: measured on the insertion container of the actual target page (not `main`/`body`, not the reference page, not a fact-sheet figure from a different template), with sidebar presence noted; the width, template and sidebar status are recorded in the handover header
 - [ ] Anything dynamic (ACF field, dynamic tag, shortcode) sits in a native widget outside the fragment; the HTML widget outputs raw content and does not process them
 
+- [ ] Logged-out check done: the live URL fetched without cookies contains the block's root id (caching and minification only affect guests)
+- [ ] No tag syntax inside any HTML comment (`check-block.py` fails on it)
+
 **WordPress (general)**
 - [ ] CSS is where the brief says: inline delivery keeps it in the fragment's `<style>`; stylesheet delivery puts the `.css` in the child theme stylesheet, the Customizer's Additional CSS or Elementor's Custom CSS, never in the HTML widget. Either way every selector keeps its `#id` prefix and the tokens stay on the block root
 - [ ] The root id is unique on the page and prefixed for the client and page (`#wc-divorce-separation`), so it cannot collide with WordPress or Elementor ids

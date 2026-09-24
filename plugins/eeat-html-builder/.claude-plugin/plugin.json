@@ -1,6 +1,6 @@
 {
   "name": "eeat-html-builder",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Builds styled, self-contained YMYL/EEAT HTML content blocks that drop into law firm websites. Encodes the four-step build process, universal build standards, CMS override patterns, a pre-handover QA checklist, and per-client design facts.",
   "author": {
     "name": "Simon Rankine"

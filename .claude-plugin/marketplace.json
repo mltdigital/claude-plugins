@@ -12,7 +12,7 @@
       "name": "eeat-html-builder",
       "source": "./plugins/eeat-html-builder",
       "description": "Builds styled, self-contained YMYL/EEAT HTML content blocks that drop into law firm websites.",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "author": { "name": "Simon Rankine" },
       "keywords": ["html", "ymyl", "eeat", "seo", "law-firm", "elementor", "wordpress"]
     }

@@ -110,11 +110,23 @@ def main(path, css_path=None, strict=False):
     comments = re.findall(r"<!--(.*?)-->", src, re.S)
     body = re.sub(r"<!--.*?-->", "", src, flags=re.S)
 
+    # Tag-like text inside comments. Server-side HTML minifiers (LiteSpeed Cache,
+    # Autoptimize, WP Rocket) protect <style>/<script>/<pre>/<textarea> blocks
+    # before stripping comments, so "<style>" written inside a comment is read as
+    # a real opening tag and everything up to the next real closing tag is lost
+    # for logged-out visitors. Logged-in users bypass the cache and see it fine.
+    for c in comments:
+        for t in re.findall(r"<\s*/?\s*[A-Za-z][^>]{0,40}>?", c):
+            F("tag-like text inside an HTML comment: %r. Minifiers can treat it as a real tag "
+              "and delete the block for logged-out visitors; write tag names without angle "
+              "brackets" % t.strip()[:40])
+            break
+
     # Header comment and section markers
     if not src.lstrip().startswith("<!--"):
         F("no handover header comment at the top of the file")
-    opens = {re.sub(r"\s+", " ", m).strip() for c in comments
-             for m in re.findall(r"^\s*\[(\d+)\]\s*([^|\n]+)", c, re.M)}
+    opens = {re.sub(r"\s+", " ", m.group(0)).strip() for c in comments
+             for m in re.finditer(r"^\s*\[(\d+)\]\s*([^|\n]+)", c, re.M)}
     closes = set()
     for c in comments:
         for m in re.finditer(r"^\s*/\[(\d+)\]\s*([^|\n]+)", c, re.M):

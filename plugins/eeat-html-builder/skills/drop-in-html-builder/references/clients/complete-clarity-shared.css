@@ -1,0 +1,145 @@
+/* Complete Clarity Solicitors: shared property-page stylesheet
+   Lives in WordPress Appearance > Customise > Additional CSS (site-wide).
+   Scoped to the root id #ccs-property-block, used once per property page.
+   Fragments that use it: ccs-property-conveyancing-block.html (/property/),
+   ccs-transfer-of-title-block.html (/property/transfer-of-title-deeds-scotland-solicitor/).
+   Components: ccsp-section, ccsp-lead, ccsp-jump, ccsp-cta-row, ccsp-btn (primary, secondary),
+   ccsp-cards/ccsp-card, ccsp-list, ccsp-profile, ccsp-steps/ccsp-step/ccsp-num,
+   ccsp-faq, ccsp-cta-final, ccsp-disclaimer.
+   Add new components here and in the Customiser; never inline in the page HTML. */
+
+  #ccs-property-block{
+    --ccs-blue:#0080C7;
+    --ccs-blue-dark:#006FAE;
+    --ccs-navy:#034E78;
+    --ccs-cyan:#00B4DC;
+    --ccs-body:#6d6d6d;
+    --ccs-strong:#444444;
+    --ccs-panel:#f2f8fc;
+    --ccs-border:#dde8f0;
+    --ccs-head:"Aller","Trebuchet MS",Arial,sans-serif;
+    --ccs-text:"Meta Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family:var(--ccs-text);
+    font-size:17px;
+    line-height:1.6;
+    color:var(--ccs-body);
+    max-width:100%;
+    box-sizing:border-box;
+    text-align:left;
+  }
+  #ccs-property-block *,#ccs-property-block *::before,#ccs-property-block *::after{box-sizing:border-box;}
+
+  /* Typography */
+  #ccs-property-block h2,#ccs-property-block h3{
+    font-family:var(--ccs-head);font-weight:400;letter-spacing:normal;text-transform:none;margin:0 0 .6em;
+  }
+  #ccs-property-block h2{font-size:32px;line-height:1.3;color:var(--ccs-blue);}
+  #ccs-property-block h3{font-size:22px;line-height:1.35;color:var(--ccs-blue-dark);}
+  #ccs-property-block p{margin:0 0 1em;color:var(--ccs-body);font-size:17px;line-height:1.6;}
+  #ccs-property-block strong{color:var(--ccs-strong);font-weight:700;}
+  #ccs-property-block a{color:var(--ccs-blue-dark) !important;text-decoration:underline !important;text-underline-offset:2px;hyphens:none;}
+  #ccs-property-block a:hover{color:var(--ccs-navy) !important;}
+  #ccs-property-block a:focus-visible,#ccs-property-block summary:focus-visible{outline:3px solid var(--ccs-navy);outline-offset:2px;}
+
+  /* Sections */
+  #ccs-property-block .ccsp-section{padding:36px 0;border-top:1px solid var(--ccs-border);}
+  #ccs-property-block .ccsp-section:first-child{border-top:0;padding-top:0;}
+  #ccs-property-block .ccsp-section > *:last-child{margin-bottom:0;}
+
+  /* Lead panel */
+  #ccs-property-block .ccsp-lead{background:var(--ccs-panel);border-left:5px solid var(--ccs-blue);padding:28px 30px;border-radius:0 6px 6px 0;}
+
+  /* Jump links */
+  #ccs-property-block .ccsp-jump{display:flex;flex-wrap:wrap;gap:8px 22px;margin:22px 0 0;padding:16px 0 0;border-top:1px solid var(--ccs-border);font-size:15px;}
+  #ccs-property-block .ccsp-jump span{font-weight:700;color:var(--ccs-strong);}
+
+  /* Buttons */
+  #ccs-property-block .ccsp-cta-row{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0 0;}
+  #ccs-property-block .ccsp-btn{
+    display:inline-flex;align-items:center;justify-content:center;min-height:48px;
+    padding:15px 30px;border-radius:50px;font-family:Helvetica,Arial,sans-serif;font-size:15px;
+    font-weight:700;line-height:1.2;text-align:center;text-decoration:none !important;
+    transition:background-color .2s ease,color .2s ease;
+  }
+  #ccs-property-block .ccsp-btn-primary{background:var(--ccs-blue-dark) !important;color:#fff !important;border:2px solid var(--ccs-blue-dark);}
+  #ccs-property-block .ccsp-btn-primary:hover{background:var(--ccs-navy) !important;border-color:var(--ccs-navy);color:#fff !important;}
+  #ccs-property-block .ccsp-btn-secondary{background:#fff !important;color:var(--ccs-blue-dark) !important;border:2px solid var(--ccs-blue-dark);}
+  #ccs-property-block .ccsp-btn-secondary:hover{background:var(--ccs-blue-dark) !important;color:#fff !important;}
+
+  /* Service cards */
+  #ccs-property-block .ccsp-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:8px 0 22px;}
+  #ccs-property-block .ccsp-card{border:1px solid var(--ccs-border);border-top:3px solid var(--ccs-cyan);border-radius:6px;padding:20px 22px;background:#fff;}
+  #ccs-property-block .ccsp-card h3{font-size:19px;font-weight:700;margin:0 0 .4em;}
+  #ccs-property-block .ccsp-card h3 a{text-decoration:none !important;}
+  #ccs-property-block .ccsp-card h3 a:hover{text-decoration:underline !important;}
+  #ccs-property-block .ccsp-card p{font-size:16px;margin:0;}
+
+  /* Checklist */
+  #ccs-property-block ul.ccsp-list{list-style:none !important;margin:0 0 1.1em;padding:0 !important;}
+  #ccs-property-block ul.ccsp-list li{position:relative;padding:0 0 0 30px;margin:0 0 .5em;color:var(--ccs-body);list-style:none !important;background:none !important;}
+  #ccs-property-block ul.ccsp-list li::before{
+    content:"" !important;position:absolute;left:4px;top:.35em;width:8px;height:14px;
+    border-right:3px solid var(--ccs-blue-dark);border-bottom:3px solid var(--ccs-blue-dark);transform:rotate(45deg);background:none;
+  }
+  #ccs-property-block ul.ccsp-list li::marker{content:"";}
+
+  /* Profile */
+  #ccs-property-block .ccsp-profile{display:grid;grid-template-columns:220px 1fr;gap:26px;align-items:start;background:var(--ccs-panel);border-radius:6px;padding:26px;}
+  #ccs-property-block .ccsp-profile img{display:block;width:100%;height:auto;border-radius:6px;}
+  #ccs-property-block .ccsp-role{display:block;font-weight:700;color:var(--ccs-strong);margin:0 0 .6em;font-size:16px;}
+
+  /* Steps */
+  #ccs-property-block .ccsp-steps{counter-reset:none;margin:18px 0 0;}
+  #ccs-property-block .ccsp-step{display:flex;gap:20px;align-items:flex-start;padding:0 0 22px;position:relative;}
+  #ccs-property-block .ccsp-step::before{content:"";position:absolute;left:21px;top:46px;bottom:0;width:2px;background:var(--ccs-border);}
+  #ccs-property-block .ccsp-step:last-child::before{display:none;}
+  #ccs-property-block .ccsp-num{
+    flex:0 0 44px;width:44px;height:44px;border-radius:50%;background:var(--ccs-blue-dark);color:#fff;
+    font-family:var(--ccs-head);font-size:20px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;
+  }
+  #ccs-property-block .ccsp-step-body{flex:1 1 auto;min-width:0;padding-top:6px;}
+  #ccs-property-block .ccsp-step-body h3{font-size:21px;margin-bottom:.45em;}
+  #ccs-property-block .ccsp-step-body p:last-child{margin-bottom:0;}
+
+  /* FAQ */
+  #ccs-property-block details.ccsp-faq{border:1px solid var(--ccs-border);border-radius:6px;margin:0 0 10px;background:#fff;overflow:hidden;}
+  #ccs-property-block details.ccsp-faq summary{
+    list-style:none;cursor:pointer;position:relative;display:block;padding:18px 56px 18px 22px;
+    font-family:var(--ccs-text);font-size:17px;font-weight:700;line-height:1.4;color:var(--ccs-blue-dark);
+    background:var(--ccs-panel) !important;border:0 !important;box-shadow:none !important;
+  }
+  #ccs-property-block details.ccsp-faq summary::-webkit-details-marker{display:none;}
+  #ccs-property-block details.ccsp-faq summary::after{
+    content:"";position:absolute;right:24px;top:50%;width:11px;height:11px;
+    border-right:2px solid var(--ccs-blue-dark);border-bottom:2px solid var(--ccs-blue-dark);
+    transform:translateY(-70%) rotate(45deg);transition:transform .2s ease;
+  }
+  #ccs-property-block details.ccsp-faq[open] summary::after{transform:translateY(-20%) rotate(-135deg);}
+  #ccs-property-block details.ccsp-faq .ccsp-faq-a{padding:16px 22px 18px;}
+  #ccs-property-block details.ccsp-faq .ccsp-faq-a p:last-child{margin:0;}
+
+  /* CTA panels */
+  #ccs-property-block .ccsp-cta-final{background:var(--ccs-navy);border-radius:6px;padding:34px 32px;}
+  #ccs-property-block .ccsp-cta-final h2{color:#fff;}
+  #ccs-property-block .ccsp-cta-final p{color:#fff;}
+  #ccs-property-block .ccsp-cta-final a:not(.ccsp-btn){color:#fff !important;}
+  #ccs-property-block .ccsp-cta-final .ccsp-btn-primary{background:#fff !important;color:var(--ccs-navy) !important;border-color:#fff;}
+  #ccs-property-block .ccsp-cta-final .ccsp-btn-primary:hover{background:var(--ccs-panel) !important;color:var(--ccs-navy) !important;}
+  #ccs-property-block .ccsp-cta-final .ccsp-btn-secondary{background:transparent !important;color:#fff !important;border-color:#fff;}
+  #ccs-property-block .ccsp-cta-final .ccsp-btn-secondary:hover{background:#fff !important;color:var(--ccs-navy) !important;}
+
+  /* Disclaimer */
+  #ccs-property-block .ccsp-disclaimer{font-size:15px;line-height:1.55;margin:26px 0 0;padding-top:18px;border-top:1px solid var(--ccs-border);}
+
+  /* Responsive */
+  @media (max-width:767px){
+    #ccs-property-block h2{font-size:26px;}
+    #ccs-property-block h3{font-size:20px;}
+    #ccs-property-block .ccsp-lead{padding:22px 20px;}
+    #ccs-property-block .ccsp-cards{grid-template-columns:1fr;}
+    #ccs-property-block .ccsp-profile{grid-template-columns:1fr;padding:20px;}
+    #ccs-property-block .ccsp-profile img{max-width:260px;}
+    #ccs-property-block .ccsp-step{gap:14px;}
+    #ccs-property-block .ccsp-cta-final{padding:26px 20px;}
+    #ccs-property-block .ccsp-btn{width:100%;}
+  }

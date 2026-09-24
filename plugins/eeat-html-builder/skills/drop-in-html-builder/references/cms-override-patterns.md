@@ -3,7 +3,7 @@
 Hard-won technical patterns for building drop-in blocks that hold their styling when inserted into WordPress + Elementor (Hello theme or similar). Many apply to other CMS/page-builder combinations too.
 
 **Scoping: use ID selectors, not class selectors.**
-Scope all CSS to a unique ID (`#block-name`) rather than a class (`.block-name`). ID specificity beats almost any theme selector without needing `!important` everywhere. Pick a unique ID per client/page — no collisions.
+Scope all CSS to a unique ID (`#block-name`) rather than a class (`.block-name`). ID specificity beats almost any theme selector without needing `!important` everywhere. Pick a unique ID per client/page — no collisions — unless the client's fact sheet sets a shared root id for a shared stylesheet (for example Complete Clarity's `#ccs-property-block`); then use that id, once per page.
 
 **Why:** Class-scoped blocks still lose to Elementor widget selectors in some contexts. ID scoping solved the problem cleanly on the MSHB settlement agreements page.
 
@@ -142,3 +142,10 @@ When a style isn't applying, check whether the theme has a more specific selecto
 
 **Where stylesheet-delivered CSS goes.**
 When the brief asks for stylesheet delivery, the `.css` file is added to the site, not pasted into the HTML widget. In order of preference: the child theme's `style.css` (versioned, survives theme updates, one place for every block on the site); Appearance → Customize → Additional CSS (no file access needed, stored in the database, exported with the Customizer); Elementor → Site Settings → Custom CSS (Elementor Pro only, loads on every page). Whichever location, the CSS is unchanged from the inline form: every selector starts with the block's root id and the tokens are declared on that root, so nothing leaks and a later block for the same client can reuse the prefix. Record the location on the `CSS` line of both headers.
+
+**Never write tag syntax inside a comment.**
+Header and section comments must not contain angle-bracket tags such as `<style>`, `<script>` or `<div id="...">`. Server-side HTML minifiers (LiteSpeed Cache's HTML optimisation, Autoptimize, WP Rocket) set aside `<style>` and `<script>` blocks before removing comments. A literal `<style>` inside a comment is taken as a real opening tag, and everything from there to the next real `</style>` is lost from the optimised page.
+
+**Why:** Complete Clarity, 24 Sep 2026. A header line "DO NOT add a <style> block" made LiteSpeed delete about 74,000 characters for logged-out visitors: the whole block and the sidebar. Logged-in users bypass the cache, so the page looked perfect in WordPress, and the inspector showed nothing wrong for the editor. Diagnose by comparing `?LSCWP_CTRL=before_optm` (block present) with a logged-out fetch (block missing). Write tag names in words ("a style block", "the div with id x"). `check-block.py` now fails on this. Also strip TinyMCE bookmark spans (`data-mce-type="bookmark"`) if the block has passed through the visual editor.
+
+**Test the logged-out page before handover.** Fetch the live URL without cookies, for example with curl or a headless browser, and confirm the block's root id is in the HTML. A logged-in check proves nothing on a cached site.

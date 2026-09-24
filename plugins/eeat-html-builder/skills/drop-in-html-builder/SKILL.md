@@ -6,7 +6,7 @@ description: >
   legal copy (a Word doc, PDF, or notes) into a drop-in HTML block, style content
   to match an existing live page, build a content block for Elementor or WordPress,
   run the pre-handover QA checklist, or work on a known client (Lewis Nedas,
-  MLT Digital, Wright & Crawford, MSHB Legal, Balfour & Manson). Triggers include
+  MLT Digital, Wright & Crawford, Complete Clarity, MSHB Legal, Balfour & Manson). Triggers include
   "build an HTML content block", "drop-in HTML", "YMYL content", "EEAT content",
   "style this to match the site", "law firm landing page content".
 ---
@@ -24,24 +24,56 @@ Follow the four-step process in order. Load the reference file named at each ste
 
 ### Step 1 — Take the job brief
 
-Every job starts from a completed brief. Read `references/job-brief-template.md`.
-If the user has not supplied the brief fields (client, page URL, CMS and page
-builder, sitemap URL, a reference page on the same site, scope, content source,
-content the client will edit themselves, who supports the page after launch,
-constraints, style information, and CSS delivery: stylesheet or inline) ask for
-the missing ones before doing
-anything else. Do not start a build on a partial brief; that is what causes the
-back-and-forth.
+**Fact sheet check (mandatory, always first).** Identify the client from the
+request: the firm name if one is given, otherwise the domain of the page URL. If
+there is neither, ask which client this is before anything else. The check is
+never skipped.
 
-Check `references/clients/` for a fact sheet matching the named client. If one
-exists, load it now (see "Client facts" below). It supplies the CMS, design tokens,
-verified URLs, and call-tracking setup so you do not re-derive them.
+List the files in `references/clients/` (ignore `_template.md`) and match the
+client by firm name and by the domain on each sheet's first line. Then take
+exactly one of these three paths and say in one line which one you took:
 
-If none exists, say so in one line before doing anything else ("No fact sheet for
-[client] yet; I'll build from the brief and the live page, and offer to write one
-at the end"). Do not silently proceed. Everything you verify during this build
-(tokens, widths, URLs, call tracking, form anchors) is fact-sheet material, so keep
-it as you go rather than reconstructing it afterwards.
+1. **Sheet found and complete for this job.** Complete means the sheet records
+   CSS delivery, call tracking and the enquiry route (questions 2, 4 and 5 in
+   `references/fact-sheet-questions.md`), and no field this build depends on is
+   marked "not yet captured". Load it now (see "Client facts" below). It supplies
+   the CMS, design tokens, CSS delivery, verified URLs and call-tracking setup, so
+   you do not re-derive them. Anything in its "Client-specific rules" section
+   overrides the general defaults in this skill and its references.
+2. **Sheet found with gaps.** Load it. For gaps in fields a person must supply,
+   ask only the matching questions from `references/fact-sheet-questions.md`. Gaps
+   in fields the live site can prove (tokens, widths, URLs, anchors, schema) are
+   filled by verification in Steps 2 and 4, never by asking. Update the sheet with
+   the answers before building.
+3. **No sheet.** Say so ("No fact sheet for [client] yet, so I'll ask a few
+   questions and create one before building"). Ask the questions in
+   `references/fact-sheet-questions.md`. Create `<client-slug>.md` (lowercase
+   firm name, words joined by hyphens, "&" written as "and", for example
+   `smith-and-co.md`) from `references/clients/_template.md` with the answers,
+   saved where "Where the sheet is saved" (under "Client facts") says, then build.
+
+Put the fact-sheet questions and any missing brief fields in the same single
+message, so the user answers once.
+
+**Then the brief.** Every job starts from a completed brief. Read
+`references/job-brief-template.md`. If the user has not supplied the brief fields
+(client, page URL, CMS and page builder, sitemap URL, a reference page on the same
+site, scope, content source, content the client will edit themselves, who
+supports the page after launch, constraints, style information, and CSS delivery:
+stylesheet or inline), ask for the missing ones in that same message. Do not
+start a build on a partial brief; that is what causes the back-and-forth. A
+field the fact sheet already answers is not missing.
+
+**Unattended runs** (scheduled, or nobody is there to answer): do not stall. Use
+the sheet where one exists; otherwise create it with every person-supplied field
+marked "not yet captured". Default CSS delivery to stylesheet unless the sheet says
+otherwise, take every other field from the live page, and list all assumptions
+and "not yet captured" fields at the top of the handover header.
+
+Never silently proceed without a sheet. Everything you verify during the build
+(tokens, widths, URLs, call tracking, form anchors, existing schema) is
+fact-sheet material: record it in the sheet as you go, and complete the sheet
+before handover (see "Client facts").
 
 ### Step 2 — Extract the live style reference
 
@@ -87,7 +119,8 @@ inside the fragment, for when nobody has stylesheet access or the client pastes
 the block themselves. Nothing else changes between the two: same root id on
 every selector, same token rule on the block root, same header in both files
 (as a `/* */` comment in the `.css`), each naming the other. If the brief does
-not say, ask; do not pick silently.
+not say, ask; do not pick silently
+(unattended runs: see Step 1).
 
 Before calling any file finished, run `python3 scripts/check-block.py <file>` (for
 stylesheet delivery pass both files; a same-stem `.css` is found automatically) and
@@ -204,20 +237,33 @@ URLs, and key internal-link and authorship targets. Available sheets:
 - `references/clients/lewis-nedas.md` — Lewis Nedas Law (London criminal defence)
 - `references/clients/mlt-digital.md` — MLT Digital (law-firm marketing agency)
 - `references/clients/wright-crawford.md` — Wright & Crawford (Scottish solicitors)
+- `references/clients/complete-clarity.md` — Complete Clarity Solicitors (Scottish
+  property pages; shared Customiser stylesheet `complete-clarity-shared.css`,
+  HTML-only builds, one shared root id across pages)
+
+No sheet exists yet for MSHB Legal or Balfour & Manson, although both are in the
+trigger list; a build for either takes path 3 of the fact sheet check.
 
 Treat tokens as point-in-time and re-verify against the live page if a build looks
 off — sites change. Call-tracking numbers (CallRail, Infinity) are swapped on
 render; keep whatever number is in the supplied content unless the sheet says
 otherwise.
 
-**Creating a sheet for a new client.** When a build finishes for a client with no
-sheet, offer to write one. On a yes, copy `references/clients/_template.md` to
-`references/clients/<client-slug>.md` and fill every bullet from what was verified
-during the build; mark anything not captured as "not yet captured" rather than
-guessing. Then add the client to the list above and to the trigger list in this
-file's front matter. Because the plugin is distributed through the marketplace, a
-new sheet only reaches the team once the plugin version is bumped and pushed, so
-tell the user that step is needed.
+**Creating a sheet for a new client.** The sheet is created at Step 1, from the
+answers to `references/fact-sheet-questions.md`, not offered at the end. Before
+handover, fill every field the build verified, add the build to the Builds line,
+and mark anything still unknown "not yet captured" rather than guessing. Add the
+client to the list above and to the trigger list in this file's front matter, in
+the same copy of the plugin the sheet is saved to (see below).
+
+**Where the sheet is saved.** The installed plugin is a read-only synced copy:
+a sheet written only there is lost at the next sync and never reaches colleagues.
+If you are working in a clone of the plugins repository, write the sheet into it.
+Otherwise save it to the user's working folder and tell them in one line that it
+only reaches the team once it is committed to
+`plugins/eeat-html-builder/skills/drop-in-html-builder/references/clients/` and the
+plugin version is bumped. Do not report a sheet as "added to the plugin" until one
+of those has happened.
 
 **Updating an existing sheet.** When a build verifies something the sheet lacks or
 contradicts (a new page template's width, a token name, a URL that now 404s),
