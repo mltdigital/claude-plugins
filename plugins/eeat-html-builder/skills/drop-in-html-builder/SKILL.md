@@ -28,7 +28,8 @@ Every job starts from a completed brief. Read `references/job-brief-template.md`
 If the user has not supplied the brief fields (client, page URL, CMS and page
 builder, sitemap URL, a reference page on the same site, scope, content source,
 content the client will edit themselves, who supports the page after launch,
-constraints, and style information) ask for the missing ones before doing
+constraints, style information, and CSS delivery: stylesheet or inline) ask for
+the missing ones before doing
 anything else. Do not start a build on a partial brief; that is what causes the
 back-and-forth.
 
@@ -78,7 +79,18 @@ patterns in `references/cms-override-patterns.md`, and the file shape, section
 order and comment format in `references/block-anatomy.md`. Reference both the
 style extraction and the structured content as you build.
 
-Before calling any file finished, run `python3 scripts/check-block.py <file>` and
+Deliver the CSS the way the brief asks (`CSS delivery`). **Stylesheet** is the
+default when a developer handles the CMS insertion: two files, `<slug>.html`
+with no `<style>` and `<slug>.css` holding the whole scoped stylesheet for the
+child theme or the CMS custom-CSS area. **Inline** is one file with the `<style>`
+inside the fragment, for when nobody has stylesheet access or the client pastes
+the block themselves. Nothing else changes between the two: same root id on
+every selector, same token rule on the block root, same header in both files
+(as a `/* */` comment in the `.css`), each naming the other. If the brief does
+not say, ask; do not pick silently.
+
+Before calling any file finished, run `python3 scripts/check-block.py <file>` (for
+stylesheet delivery pass both files; a same-stem `.css` is found automatically) and
 clear every FAIL, then run every item in `references/qa-checklist.md`. The header
 comment at the top of the file is the handover (template in `block-anatomy.md`);
 it is written for the support developer who will see the block cold, and the
@@ -89,10 +101,12 @@ delivery message copies it.
 These apply to every block, every client. Full detail and the reasoning behind
 each is in `references/build-standards.md` — read it before your first build.
 
-1. **Never include HTML document boilerplate.** Output only a `<style>` block, any
-   `<script>` blocks (e.g. JSON-LD), and the content `<div>`. No `<!DOCTYPE>`,
-   `<html>`, `<head>`, `<meta>`, `<title>`, or `<body>`. The file is a fragment,
-   not a document.
+1. **Never include HTML document boilerplate.** The fragment holds only any
+   `<script>` blocks (e.g. JSON-LD), the content `<div>`, and, for inline CSS
+   delivery, one `<style>` block. For stylesheet delivery the CSS ships as a
+   separate `.css` file and the fragment has no `<style>`. No `<!DOCTYPE>`,
+   `<html>`, `<head>`, `<meta>`, `<title>`, `<link>` or `<body>`. The file is a
+   fragment, not a document.
 2. **Identify the CMS and get a reference page before starting.** Ask for the page
    builder and a URL on the same site to verify against.
 3. **Verify computed styles on the rendered reference page.** Read real computed
@@ -148,6 +162,11 @@ technical patterns in `references/cms-override-patterns.md`. The essentials:
   colour token, with the verified value as fallback, once you have confirmed it
   carries the rendered brand colour.
 - **Use `!important` surgically**, only on properties actually being overridden.
+- **Stylesheet delivery changes where the CSS lives, not how it is written.** The
+  `.css` goes in the child theme stylesheet (first choice), the Customizer's
+  Additional CSS, or Elementor's Custom CSS; never inside the HTML widget. Every
+  selector keeps the root id and the tokens stay on the block root, so the same
+  file passes the same check.
 - **Build and preview at the target page's own content width.** Never assume a
   figure and never carry one over from another page or a fact sheet without
   checking: width is a property of the page template, not the site. A service page

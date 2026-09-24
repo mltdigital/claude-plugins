@@ -5,7 +5,7 @@ The shape every drop-in block takes, so that a support developer who has never s
 ## File order (fixed)
 
 1. Header comment: the handover (template below).
-2. One `<style>` block, in this internal order, each part introduced by a `/* [n] NAME */` comment:
+2. The CSS, in this internal order, each part introduced by a `/* [n] NAME */` comment. Inline delivery: one `<style>` block here. Stylesheet delivery: the same CSS in a companion `<slug>.css`, and no `<style>` in the fragment (see "CSS delivery" below):
    - Tokens: the bare `#root { --prefix-role: ...; }` rule and nothing else in it
    - Base: root typography and layout that differ from the container probe
    - Components: buttons, cards, steps, details/summary, bands
@@ -17,6 +17,15 @@ The shape every drop-in block takes, so that a support developer who has never s
 ## Root id and prefix
 
 Root id: client prefix, then page slug, for example `#wc-divorce-separation`, `#ln-road-traffic`. Unique on the page. Every selector starts with it. Every custom property and every class starts with the same prefix (`--wc-`, `.wc-`).
+
+## CSS delivery
+
+The brief chooses one of two shapes. The CSS itself is identical in both.
+
+- **Stylesheet** (default when a developer handles insertion): `<slug>.html` holds the header, JSON-LD and the root `<div>`, with no `<style>`. `<slug>.css` holds the header as a `/* */` comment followed by the CSS in the order above. The developer adds the `.css` to the child theme stylesheet or the CMS custom-CSS area and pastes the fragment into the HTML widget. One stylesheet edit then reaches every page that uses the block's prefix.
+- **Inline** (nobody has stylesheet access, or the client pastes the block themselves): one `<slug>.html` with the `<style>` block in position 2.
+
+Both headers carry a `CSS` line: the fragment's names the stylesheet file and where it goes; the stylesheet's names the fragment. `check-block.py` takes the pair (`check-block.py <slug>.html <slug>.css`, or finds a same-stem `.css` itself) and fails a fragment that has neither a `<style>` nor a companion file, or both.
 
 ## Token block
 
@@ -92,6 +101,7 @@ Splitting: deliver `part-1` and `part-2` with root ids `#prefix-page-1` and `#pr
       BLOCK        Wright & Crawford: divorce and separation (drop-in content block)
       Root id      #wc-divorce-separation   Prefix --wc- / .wc-
       File         wright-crawford--divorce-and-separation.html
+      CSS          wright-crawford--divorce-and-separation.css, stylesheet delivery: add to the child theme style.css
       Page         https://www.example.co.uk/family-law/divorce-and-separation-agreements/
       Pasted into  Elementor HTML widget, main content column, below the page-title hero
       Built        17 Jun 2026   Styles verified on live reference page 17 Jun 2026

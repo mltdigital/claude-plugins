@@ -139,3 +139,6 @@ Use `curl -L` (follow redirects) when fetching a reference page or its styleshee
 
 **Test CSS at component level, not just block level.**
 When a style isn't applying, check whether the theme has a more specific selector on the same element. Use Chrome DevTools (or the JS tool) to inspect computed styles and identify which rule is winning.
+
+**Where stylesheet-delivered CSS goes.**
+When the brief asks for stylesheet delivery, the `.css` file is added to the site, not pasted into the HTML widget. In order of preference: the child theme's `style.css` (versioned, survives theme updates, one place for every block on the site); Appearance → Customize → Additional CSS (no file access needed, stored in the database, exported with the Customizer); Elementor → Site Settings → Custom CSS (Elementor Pro only, loads on every page). Whichever location, the CSS is unchanged from the inline form: every selector starts with the block's root id and the tokens are declared on that root, so nothing leaks and a later block for the same client can reuse the prefix. Record the location on the `CSS` line of both headers.

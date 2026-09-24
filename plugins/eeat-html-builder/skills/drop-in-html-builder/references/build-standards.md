@@ -3,7 +3,7 @@
 These rules apply to every HTML content block built in this project, for any client. They are CMS-agnostic unless a rule specifies otherwise.
 
 **Rule 1 — Never include HTML document boilerplate.**
-Drop-in blocks must contain only: a `<style>` block, any `<script>` blocks (e.g. JSON-LD), and the content `<div>`. Never include `<!DOCTYPE>`, `<html>`, `<head>`, `<meta>`, `<title>`, or `<body>`. These conflict with the existing CMS page structure.
+Drop-in blocks must contain only: any `<script>` blocks (e.g. JSON-LD), the content `<div>`, and, for inline CSS delivery, one `<style>` block. For stylesheet delivery the same CSS ships as a separate `.css` file and the fragment has no `<style>` at all. Never include `<!DOCTYPE>`, `<html>`, `<head>`, `<meta>`, `<title>`, or `<body>`. These conflict with the existing CMS page structure.
 
 **Why:** Learned the hard way — a full HTML document wrapper in an Elementor page caused active conflicts and style bleed. The file must be a fragment, not a document.
 

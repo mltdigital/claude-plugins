@@ -8,9 +8,10 @@ Run through this before sending the final HTML file to the client or developer. 
 
 Run the check first. It exits BLOCKED on any failure and the file is not finished until it passes:
 
-    python3 scripts/check-block.py <file>
+    python3 scripts/check-block.py <file>.html
+    python3 scripts/check-block.py <file>.html <file>.css    # stylesheet delivery (a same-stem .css is found without naming it)
 
-It enforces: no document boilerplate; one root element with an id; every selector scoped to that id, including inside `@media`; no `:root`; no dead custom properties; no site token without a fallback; no colour literals outside the token block; no `@import` or `@font-face`; no `<form>`; JSON-LD questions, answers and step names present verbatim on the page; header comment, `[n]` section markers with closers, TOKEN MAP and EDIT INDEX present.
+It enforces: CSS in exactly one place (inline `<style>` or companion `.css`, never both, never neither); no document boilerplate; one root element with an id; every selector scoped to that id, including inside `@media`; no `:root`; no dead custom properties; no site token without a fallback; no colour literals outside the token block; no `@import` or `@font-face`; no `<form>`; JSON-LD questions, answers and step names present verbatim on the page; header comment, `[n]` section markers with closers, TOKEN MAP and EDIT INDEX present.
 
 No tooling fallback. If the script cannot be run, these greps cover boilerplate, dead tokens, `:root` and `@import`. They do not cover unscoped selectors or JSON-LD drift, which then have to be read by eye:
 
@@ -79,7 +80,7 @@ Use https://webaim.org/resources/contrastchecker/ if you are not sure. If anythi
 - [ ] Anything dynamic (ACF field, dynamic tag, shortcode) sits in a native widget outside the fragment; the HTML widget outputs raw content and does not process them
 
 **WordPress (general)**
-- [ ] Styles stay in the fragment's `<style>` block by default. If the developer moves them into the theme, every selector keeps its `#id` prefix; the check script still passes on the CSS alone.
+- [ ] CSS is where the brief says: inline delivery keeps it in the fragment's `<style>`; stylesheet delivery puts the `.css` in the child theme stylesheet, the Customizer's Additional CSS or Elementor's Custom CSS, never in the HTML widget. Either way every selector keeps its `#id` prefix and the tokens stay on the block root
 - [ ] The root id is unique on the page and prefixed for the client and page (`#wc-divorce-separation`), so it cannot collide with WordPress or Elementor ids
 - [ ] Images, if any, use URLs that resolve on the client's server; no localhost or Claude output paths
 
@@ -125,4 +126,5 @@ HTML comments ship to production and are visible to anyone who views source. Nev
 - [ ] Header contains no backup path, server path, staging credential or other access detail
 - [ ] Dependencies the site must provide (a font not loaded, an icon set) are listed; the block fetches none of them
 - [ ] If the block is split around a native widget, each fragment's header names the other and what sits between them
+- [ ] Stylesheet delivery: the fragment's `CSS` line names the `.css` file and where it goes, the `.css` header names the fragment, and the check was run on the pair
 - [ ] Last line of the `check-block.py` output pasted under Check result

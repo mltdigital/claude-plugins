@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """check-block.py: pre-handover regression guard for drop-in HTML fragments.
 
-Usage: python3 check-block.py <fragment.html> [--strict]
+Usage: python3 check-block.py <fragment.html> [<styles.css>] [--strict]
 Exit 1 on any FAIL. --strict also turns WARN into FAIL.
-Stdlib only. Run it on the output file before every handover.
+Stdlib only. Run it on the output file(s) before every handover.
+
+CSS delivery: inline (one <style> in the fragment) or stylesheet (no <style>;
+the CSS in a companion .css file). Pass the .css as the second argument, or
+name it <same-stem>.css next to the fragment and it is picked up. A fragment
+with neither, or with both, is a FAIL.
 
 The CSS walker is a simple brace-depth parser: it does not understand CSS
 nesting (a selector inside another selector's body) or :is()/:where(), and
@@ -14,6 +19,7 @@ list before running this script.
 """
 import html
 import json
+import os
 import re
 import sys
 from html.parser import HTMLParser
@@ -96,7 +102,7 @@ def css_rules(css):
     return out
 
 
-def main(path, strict=False):
+def main(path, css_path=None, strict=False):
     src = open(path, encoding="utf-8").read()
     fails, warns = [], []
     F, W = fails.append, warns.append
@@ -148,8 +154,31 @@ def main(path, strict=False):
         F("duplicate ids in fragment: %s" % sorted(dupes))
     page_text = norm(" ".join(w.text))
 
-    # CSS
-    css = "\n".join(re.findall(r"<style[^>]*>(.*?)</style>", body, re.S | re.I))
+    # CSS: inline <style> or companion stylesheet, never both
+    inline_css = re.findall(r"<style[^>]*>(.*?)</style>", body, re.S | re.I)
+    if css_path is None:
+        cand = os.path.splitext(path)[0] + ".css"
+        if os.path.exists(cand):
+            css_path = cand
+    ext_css = ""
+    if css_path:
+        ext_src = open(css_path, encoding="utf-8").read()
+        if not ext_src.lstrip().startswith("/*"):
+            F("no handover header comment at the top of %s" % css_path)
+        if re.search(r"<\s*/?\s*(style|script|div)\b", ext_src, re.I):
+            F("markup inside %s: the stylesheet file is raw CSS only" % css_path)
+        if inline_css:
+            F("CSS in two places: <style> in the fragment and companion stylesheet %s; "
+              "deliver one or the other" % os.path.basename(css_path))
+        if os.path.basename(css_path) not in " ".join(comments):
+            W("fragment header does not name the companion stylesheet %s" % os.path.basename(css_path))
+        if os.path.basename(path) not in " ".join(re.findall(r"/\*(.*?)\*/", ext_src, re.S)):
+            W("stylesheet header does not name the fragment %s" % os.path.basename(path))
+        ext_css = ext_src
+    elif not inline_css:
+        F("no CSS: fragment has no <style> block and no companion .css was found "
+          "(pass it as the second argument or name it <same-stem>.css)")
+    css = "\n".join(inline_css) + "\n" + ext_css
     css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
     if "@import" in css:
         F("@import in CSS (fonts that render on the reference page are already loaded)")
@@ -276,7 +305,8 @@ def main(path, strict=False):
     for w_ in warns:
         print("WARN  " + w_)
     bad = len(fails) + (len(warns) if strict else 0)
-    print("\n%s: %d fail, %d warn (%s)" % ("PASS" if not bad else "BLOCKED", len(fails), len(warns), path))
+    label = path + (" + " + os.path.basename(css_path) if css_path else "")
+    print("\n%s: %d fail, %d warn (%s)" % ("PASS" if not bad else "BLOCKED", len(fails), len(warns), label))
     return 1 if bad else 0
 
 
@@ -285,4 +315,4 @@ if __name__ == "__main__":
     if not args:
         print(__doc__)
         sys.exit(2)
-    sys.exit(main(args[0], strict="--strict" in sys.argv))
+    sys.exit(main(args[0], args[1] if len(args) > 1 else None, strict="--strict" in sys.argv))

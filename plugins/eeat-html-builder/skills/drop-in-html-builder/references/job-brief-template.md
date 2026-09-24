@@ -65,6 +65,10 @@ Paste this at the start of every new job in this project. Fill in every field be
 **Are there any trust/credential signals to include?**
 *(e.g. Law Society accreditations, years established, named solicitor credentials, client testimonials)*
 
+**CSS delivery:**
+- [ ] Stylesheet — two files: the HTML fragment with no `<style>`, plus a `.css` file the developer adds to the child theme stylesheet or the CMS custom-CSS area. Default when a developer handles insertion; one place to maintain.
+- [ ] Inline — one file with the `<style>` inside the fragment. Use when nobody has stylesheet access or the client pastes the block themselves.
+
 ---
 
 ## Style matching

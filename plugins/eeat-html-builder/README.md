@@ -56,6 +56,10 @@ open and edit the actual HTML deliverables.
 
 ## Changelog
 
+**0.4.0**
+- CSS delivery is now a brief field. **Stylesheet** (the default when a developer handles insertion) ships two files: the fragment with no `<style>` and a companion `.css` for the child theme stylesheet or the CMS custom-CSS area, so styles are maintained in one place. **Inline** is the previous single-file form. Same scoped CSS, same header in both files, each naming the other.
+- `check-block.py` takes the pair (`<file>.html <file>.css`, or finds a same-stem `.css` itself) and fails a fragment with no CSS in either place or CSS in both.
+
 **0.3.0**
 - Fact-sheet detection: when a named client has no sheet in `references/clients/`, Claude says so up front, builds from the brief and live page, and offers to write a sheet at the end from `references/clients/_template.md`. Existing sheets are updated in-session when a build verifies something they lack.
 - Content width is now measured per page template on the target page's insertion container, with sidebar presence recorded, instead of on the reference page or from a single site-wide figure.
